@@ -14,12 +14,24 @@
  * @returns {string} Drawn tree
  */
 function createXmasTree(height, ornament) {
-  /* Code here */
-  return "";
+  const maxWidth = height * 2 - 1;
+  let treeBody = "";
+
+  for (let i = 1; i <= height; i++) {
+    const ornaments = ornament.repeat(i * 2 - 1);
+    const fillSpace = "_".repeat((maxWidth - ornaments.length) / 2);
+
+    treeBody += `${fillSpace}${ornaments}${fillSpace}\n`;
+  }
+
+  const trunk =
+    "_".repeat((maxWidth - 1) / 2) + "#" + "_".repeat((maxWidth - 1) / 2);
+  treeBody += `${trunk}\n${trunk}`;
+  return treeBody;
 }
 
 // Ejemplos:
-const tree = createXmasTree(5, "*");
+const tree = createXmasTree(30, "*");
 console.log(tree);
 /*
 ____*____
