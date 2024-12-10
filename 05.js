@@ -10,25 +10,22 @@
  * @returns {number[]} Available shoes
  */
 function organizeShoes(shoes) {
-  let availableShoes = [...shoes.map((shoe) => ({ ...shoe, available: true }))];
   const result = [];
 
-  availableShoes.forEach((shoe, i) => {
-    if (!shoe.available) return;
-    const matchShoe = availableShoes.findIndex(
-      (availableShoe, availableShoeIndex) =>
-        availableShoe.available &&
-        availableShoe.size == shoe.size &&
-        availableShoe.type !== shoe.type &&
-        i != availableShoeIndex
-    );
-
-    if (availableShoes[matchShoe]) {
-      result.push(shoe.size);
-      availableShoes[i].available = false;
-      availableShoes[matchShoe].available = false;
+  const shoesBySize = {};
+  shoes.forEach((shoe) => {
+    if (!shoesBySize[shoe.size]) {
+      shoesBySize[shoe.size] = { I: 0, R: 0 };
     }
+    shoesBySize[shoe.size][shoe.type]++;
   });
+
+  for (const [size, { I, R }] of Object.entries(shoesBySize)) {
+    const maxPairs = Math.min(I, R);
+    for (let i = 0; i < maxPairs; i++) {
+      result.push(Number(size));
+    }
+  }
   return result;
 }
 
